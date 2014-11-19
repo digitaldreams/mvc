@@ -4,8 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/mvc/library/Application.php</file>
+            <file>file:/C:/xampp/htdocs/mvc/model/Member.php</file>
             <file>file:/C:/xampp/htdocs/mvc/controller/BaseController.php</file>
             <file>file:/C:/xampp/htdocs/mvc/index.php</file>
+            <file>file:/C:/xampp/htdocs/mvc/library/CoreModel.php</file>
             <file>file:/C:/xampp/htdocs/mvc/controller/CoreController.php</file>
         </group>
     </open-files>

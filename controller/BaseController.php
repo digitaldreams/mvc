@@ -11,6 +11,7 @@ class BaseController extends CoreController{
     }
 
     public function test(){
+        $member=new Member();
         $this->render('hello',array(
            'hello'=>'Hello World' 
         ));

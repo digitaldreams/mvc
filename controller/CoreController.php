@@ -6,10 +6,15 @@
  * and open the template in the editor.
  */
 
-class CoreController{
-    public function render($viewName,$data){
+abstract class CoreController{
+     public static $tableName;
+     
+
+
+     public function render($viewName,$data){
         extract($data,EXTR_PREFIX_SAME,'data');
         require_once './view/'.$viewName.'.php';
     }
+   
    
 }

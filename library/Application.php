@@ -70,7 +70,7 @@ class Application {
             require_once $con;
             return TRUE;
         } elseif (file_exists($mod)) {
-            require_once $con;
+            require_once $mod;
             return TRUE;
         } else {
             throw new Exception('Clsas Not found');

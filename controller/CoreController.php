@@ -6,10 +6,9 @@
  * and open the template in the editor.
  */
 
-abstract class CoreController{
+abstract class CoreController implements Controller{
      public static $tableName;
      
-
 
      public function render($viewName,$data){
         extract($data,EXTR_PREFIX_SAME,'data');

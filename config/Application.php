@@ -26,7 +26,7 @@ class Application {
         $hostName = $_SERVER['SERVER_NAME'];
         $pathName = $_SERVER['REQUEST_URI'];
         $fullPath = $hostName . $pathName;
-        $this->path = $_SERVER['PATH_INFO'];
+        $this->path =(isset($_SERVER['PATH_INFO']))?$_SERVER['PATH_INFO']:"";
         $pathArr = explode('/', trim($this->path, "/"));
         if (isset($pathArr[0])) {
             $this->controllerName = $pathArr[0];
@@ -63,17 +63,17 @@ class Application {
         $lib = "./library/" . $className . ".php";
         $con = "./controller/" . $className . ".php";
         $mod = "./model/" . $className . ".php";
-        if (file_exists($lib)) {
+        $config="./config/".$className .".php";
+        if (file_exists($config)) {
+            require_once $config;
+        }elseif (file_exists($lib)) {
             require_once $lib;
-            return TRUE;
         } elseif (file_exists($con)) {
             require_once $con;
-            return TRUE;
         } elseif (file_exists($mod)) {
             require_once $mod;
-            return TRUE;
         } else {
-            throw new Exception('Clsas Not found');
+            throw new Exception('Sorry Unable to load '.$className.".php");
         }
     }
 
@@ -81,9 +81,19 @@ class Application {
         try{
         $class = $this->controllerName;
         $method = $this->controllerMethod;
-          $controller = new $class;
+         
+        if(class_exists($class)){
+           $controller = new $class;  
+        }elseif(empty ($class)){
+        $class=Config::options()['defaultController'];
+        $controller=new $class;
+        }else{
+        throw new Exception('Class Does Not Exist');    
+        }
         if(method_exists($controller,$method)){
           $controller->$method();   
+        }elseif(method_exists($controller,'index')){
+       $controller->index();        
         }else{
             throw new Exception('Method Does Not Exist');
         }

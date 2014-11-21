@@ -10,6 +10,12 @@ class BaseController extends CoreController{
     public function __construct() {
         
     }
+    
+    public function index(){
+      $this->render('index',array(
+           'hello'=>'Hello World' 
+        ));   
+    }
 
     public function test(){
         

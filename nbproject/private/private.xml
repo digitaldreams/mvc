@@ -5,10 +5,13 @@
         <group>
             <file>file:/C:/xampp/htdocs/mvc/library/Application.php</file>
             <file>file:/C:/xampp/htdocs/mvc/model/Member.php</file>
+            <file>file:/C:/xampp/htdocs/mvc/library/Helper.php</file>
             <file>file:/C:/xampp/htdocs/mvc/controller/BaseController.php</file>
             <file>file:/C:/xampp/htdocs/mvc/index.php</file>
             <file>file:/C:/xampp/htdocs/mvc/library/CoreModel.php</file>
             <file>file:/C:/xampp/htdocs/mvc/controller/CoreController.php</file>
+            <file>file:/C:/xampp/htdocs/mvc/library/Model.php</file>
+            <file>file:/C:/xampp/htdocs/mvc/library/Controller.php</file>
         </group>
     </open-files>
 </project-private>

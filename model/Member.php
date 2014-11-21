@@ -7,9 +7,9 @@
  */
 
 class Member extends CoreModel{
-    public function rules(array $rules) {
-        $rules=array();
-        return parent::rules($rules);
+    public static $tableName='member';
+    public function rules() {
+        
     }
 
     public function tableName(){

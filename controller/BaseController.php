@@ -7,8 +7,11 @@
  */
 class BaseController extends CoreController{
     use Helper;
+    public $viewFolder="base";
     public function __construct() {
-        
+        if(empty($this->viewFolder)){
+            $this->viewFolder=__CLASS__;   
+        }
     }
     
     public function index(){
@@ -26,8 +29,9 @@ class BaseController extends CoreController{
         $member->country="Bangladesh";
         $member->age=25;
         $member->profession="Student, job holder";
-        echo $this->validate("digitaldreams40@gmail.com",'email');
-        //$this->printObj($member);
+        $member->save();
+        $this->printObj($member);
+        
         $this->render('hello',array(
            'hello'=>'Hello World' 
         ));

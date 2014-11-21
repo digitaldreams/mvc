@@ -10,7 +10,7 @@ class Config{
     public static function options(){
         return [
           'appsName'=>'Standard PHP Library',
-          'rootUrl'=>'',
+          'rootUrl'=>'http://localhost/mvc/index.php',
           'defaultController'=>'BaseController',
           'errorController'=>'errorController',
           'dbName'=>'',

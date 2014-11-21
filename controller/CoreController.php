@@ -8,11 +8,13 @@
 
 abstract class CoreController implements Controller{
      public static $tableName;
-     
+     public $viewFolder='';
+
+
 
      public function render($viewName,$data){
         extract($data,EXTR_PREFIX_SAME,'data');
-        require_once './view/'.$viewName.'.php';
+        require_once '/view/'.  $this->viewFolder."/".$viewName.'.php';
     }
    
    

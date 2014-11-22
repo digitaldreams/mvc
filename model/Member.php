@@ -8,14 +8,21 @@
 
 class Member extends CoreModel{
     public static $tableName='member';
+    public static $pk='member_id';
     public function rules() {
+        return [
+            'fullName'=>['type'=>'string'],
+            'email'=>['type'=>'email'],
+            'mobile'=>['type'=>'int'],
+            'country'=>['type'=>'string'],
+            'age'=>['type'=>'int'],
+            'profession'=>['type'=>'string'],
+        ];
         
     }
 
     public function tableName(){
         return 'member';
     }
-    public function primaryKey(){
-        return 'member_id';
-    }
+    
 }

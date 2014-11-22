@@ -23,14 +23,18 @@ class BaseController extends CoreController{
     public function test(){
         
         $member=new Member();
-        $member->fullName='Tuhin Bepari';
-        $member->email="digitaldreams40@gmail.com";
-        $member->mobile=01925000036;
-        $member->country="Bangladesh";
-        $member->age=25;
-        $member->profession="Student, job holder";
+        /*
+        $member->fullName="Najmul Islam";
+        $member->email="najmulislam@gmail.com";
+        $member->mobile=1717219548;
+        $member->country="BD";
+        $member->age=24;
+        $member->profession="Student";
         $member->save();
-        $this->printObj($member);
+        $this->printObj($member->getErrors());
+         * 
+         */
+        $this->printObj($member->findByPk(3));
         
         $this->render('hello',array(
            'hello'=>'Hello World' 

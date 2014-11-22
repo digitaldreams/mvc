@@ -69,21 +69,22 @@ trait Helper {
         }
         return $retVal;
     }
-    public function validate($value, $type, $options = '') {
+     public function validate($value, $type, $options = '') {
+        $retVal=FALSE;
         switch ($type) {
             case 'string':
-                $_retVal = trim($value);
-                $retVal =ctype_alnum($value);
+                $value = trim($value);
+                $retVal =(gettype($value)=='string')?TRUE:FALSE;
                 break;
-            
+
             case 'int':
-                $retVal = ctype_digit($value);
+                $retVal =  filter_var($value,FILTER_VALIDATE_INT);
                 break;
-            
+
             case 'double':
-                $retVal =filter_var($value,FILTER_VALIDATE_FLOAT);
+                $retVal = filter_var($value, FILTER_VALIDATE_FLOAT);
                 break;
-            
+
             case 'array':
                 if (is_array($value) && count($value) > 0)
                     $retVal = TRUE;
@@ -92,23 +93,23 @@ trait Helper {
             case 'email':
                 $retVal = filter_var($value, FILTER_VALIDATE_EMAIL);
                 break;
-            
+
             case 'url':
-                $retVal = filter_var($value,FILTER_VALIDATE_URL);
+                $retVal = filter_var($value, FILTER_VALIDATE_URL);
                 break;
             case 'ip':
-                $retVal=  filter_var($value,FILTER_VALIDATE_IP);
+                $retVal = filter_var($value, FILTER_VALIDATE_IP);
                 break;
             case 'regex':
-                $retVal=  filter_var($value,FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>$options)));
+                $retVal = filter_var($value, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => $options)));
                 break;
-            
+
             case 'bool':
                 $retVal = filter_var($value, FILTER_VALIDATE_BOOLEAN);
-            break;
+                break;
 
             default:
-                $retVal = $value;
+                $retVal =FALSE;
                 break;
         }
         return $retVal;

@@ -9,5 +9,4 @@
 interface Model {
 public function save();
 public function rules();
-public function validate();
 }

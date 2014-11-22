@@ -8,8 +8,13 @@
 
 abstract class CoreModel implements Model {
 
+    use Helper;
+    
     protected $db;
+    protected $sql;
+    protected $placeHolderArray=array();
     public static $tableName;
+    public static $pk;
 
     const DBNAME = 'spl';
     const DRIVER = 'mysql';
@@ -18,21 +23,16 @@ abstract class CoreModel implements Model {
     const PASSWORD = '';
 
     protected $errors = array();
-    private $properties = array();
+    public $properties = array();
 
     public function __construct() {
-        $this->db = new PDO(self::DRIVER . ":dbname=" . self::DBNAME . ";host=" . self::HOSTNAME, self::USERNAME, self::PASSWORD);
+        $this->db = new PDO(self::DRIVER .":dbname=" .self::DBNAME . ";host=" . self::HOSTNAME, self::USERNAME, self::PASSWORD);
     }
 
     /**
      * 
      */
     abstract public function tableName();
-
-    /**
-     * 
-     */
-    abstract public function primaryKey();
 
     /**
      * 
@@ -45,8 +45,33 @@ abstract class CoreModel implements Model {
      * 
      * @param type $pk
      */
-    public function findByPk($pk) {
+    protected function processQuery($statement){
         
+    }
+    protected function statement(){
+        
+    }
+    
+    /**
+     * 
+     * @param array $array
+     */
+    protected function where(array $array){
+        
+    }
+    /**
+     * 
+     * @param type $pk
+     * @return type
+     */
+    public function findByPk($pk) {
+        $retObj='';
+       $this->sql="SELECT * FROM `".static::$tableName."` WHERE `".static::$pk."`=:pk";
+        $exec=  $this->db->prepare($this->sql);
+        $exec->bindParam(":pk",$pk,PDO::PARAM_INT);
+        $exec->execute();
+        $retObj=$exec->fetch(PDO::FETCH_OBJ);
+       return $retObj;
     }
 
     /**
@@ -81,7 +106,22 @@ abstract class CoreModel implements Model {
      * 
      */
     public function save() {
-        $objectVars = get_object_vars($this);
+        $this->insert($this->properties);
+        if(!empty($this->errors)){
+            return FALSE;
+        }
+    $exec=  $this->db->prepare($this->sql);
+    $exec->execute($this->placeHolderArray);
+    
+        }
+
+    public function errorMessage() {
+        return [
+            'string' => 'Sorry value is not srting ',
+            'email' => 'Please give a valid email address',
+            'int' => 'Integer Number required ',
+            'bool' => 'Boolean value required',
+        ];
     }
 
     public function saveFromArray() {
@@ -95,16 +135,35 @@ abstract class CoreModel implements Model {
     public function __get($name) {
         
     }
-    protected function insert($keys,$values){
-      static::$tableName;
-      
+
+    protected function insert($array) {
+        $sql = "INSERT INTO `" . static::$tableName . "` ";
+        $sqlkeys = '(';
+        $sqlValues = 'VALUES(';
+        foreach ($array as $key => $value) {
+            $sqlkeys.="`" . $key . "`,";
+            $sqlValues.=":" . $key . ",";
+            $type = $this->rules()[$key]['type'];
+            $this->placeHolderArray[":$key"]=$value;
+
+            if ($this->validate($value, $type) == FALSE) {
+                $this->errors[$key] = $this->errorMessage()[$type];
+            }
+        }
+        $sqlkeys = trim($sqlkeys, ",");
+        $sqlValues = trim($sqlValues, ",");
+        $sqlkeys.=") ";
+        $sqlValues.=") ";
+        $sql.=$sqlkeys;
+        $sql.=$sqlValues;
+        $this->sql=$sql;
     }
 
     public function __set($name, $value) {
         if (ctype_alnum($name) && (ctype_digit($name[0]) == FALSE)) {
             $this->$name = $this->db->quote($value);
             $this->properties[$name] = $value;
-           }
+        }
     }
 
     /**
@@ -115,13 +174,6 @@ abstract class CoreModel implements Model {
      */
     public function rules() {
         return array();
-    }
-
-    public function validate() {
-        //validation should not apply
-        if (empty($this->properties) && cout($this->properties)<1) {
-            $this->errors['empty']='No property Define';
-        }
     }
 
     public function getErrors() {

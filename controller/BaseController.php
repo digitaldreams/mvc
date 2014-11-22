@@ -34,8 +34,9 @@ class BaseController extends CoreController{
         $this->printObj($member->getErrors());
          * 
          */
-        $this->printObj($member->findByPk(3));
-        
+       // $this->printObj($member->findByPk(3));
+       $obj=Application::param('mobile','adminEmail');
+       echo $obj->adminEmail;
         $this->render('hello',array(
            'hello'=>'Hello World' 
         ));

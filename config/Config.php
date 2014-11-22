@@ -10,7 +10,7 @@ class Config{
     public static function options(){
         return [
           'appsName'=>'Standard PHP Library',
-          'rootUrl'=>'http://localhost/mvc/index.php',
+          'rootUrl'=>'http://localhost/mvc',
           'defaultController'=>'BaseController',
           'errorController'=>'errorController',
           'dbName'=>'',
@@ -22,12 +22,7 @@ class Config{
         ];
     }
     
-    public static function params(){
-        return [
-            'adminEmail'=>'digitaldreams40@gmail.com',
-            'mobile'=>'01925000036'
-        ];
-    }
+   
     /**
      * Make controller alias name which will be used in url for readablility.Alias as index and controller name as value
      * @return type 
@@ -35,7 +30,8 @@ class Config{
     public static function Alias(){
         return [
             'root'=>'BaseController',
-            'home'=>'BaseController/index'
+            'home'=>'BaseController/index',
+            'app'=>'Application'
         ];
     }
 }

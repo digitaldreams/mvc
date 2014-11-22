@@ -22,7 +22,19 @@ class Application {
     public function index() {
         
     }
+    
+    public static function __callStatic($name,$arguments) {
+         $class=new $name($arguments);
+        // return $class->$arguments[0];
+         if(count($arguments)==1){
+             return $class->$arguments[0];
+         }else{
+             return $class;
+         }
+         
+    }
 
+    
     public function init() {
         $hostName = $_SERVER['SERVER_NAME'];
         $pathName = $_SERVER['REQUEST_URI'];

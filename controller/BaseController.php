@@ -21,7 +21,7 @@ class BaseController extends CoreController{
     }
 
     public function test(){
-        
+        $this->layout='default';
         $member=new Member();
         /*
         $member->fullName="Najmul Islam";
@@ -36,7 +36,6 @@ class BaseController extends CoreController{
          */
        // $this->printObj($member->findByPk(3));
        $obj=Application::param('mobile','adminEmail');
-       echo $obj->adminEmail;
         $this->render('hello',array(
            'hello'=>'Hello World' 
         ));

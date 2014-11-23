@@ -11,12 +11,11 @@ class Application {
 
     public static $controllerName;
     public static $controllerMethod;
-    private $controllerArgument = array();
     private $path;
+    
 
     public function __construct() {
         $this->init();
-        $this->setQuery();
     }
 
     public function index() {
@@ -25,13 +24,11 @@ class Application {
     
     public static function __callStatic($name,$arguments) {
          $class=new $name($arguments);
-        // return $class->$arguments[0];
          if(count($arguments)==1){
              return $class->$arguments[0];
          }else{
              return $class;
          }
-         
     }
 
     
@@ -58,30 +55,7 @@ class Application {
         static::$controllerName = $className;
         return $className;
     }
-
-    private function setQuery() {
-        $queryString = $_SERVER['QUERY_STRING'];
-        $queryString = trim($queryString, "=,&");
-        if (!empty($queryString) && strpos($queryString, "=")) {
-            if (strpos($queryString, "&") != FALSE) {
-                $argumentsArr = explode("&", $queryString);
-                foreach ($argumentsArr as $key => $value) {
-                    $arguments = explode("=", $value);
-                    if (count($arguments) == 2)
-                        $this->controllerArgument[$arguments[0]] = $arguments[1];
-                }
-            } else {
-                $arguments = explode("=", $queryString);
-                if (count($arguments) == 2)
-                    $this->controllerArgument[$arguments[0]] = $arguments[1];
-            }
-        }
-    }
-
-    public function getQuery() {
-        return $this->controllerArgument;
-    }
-
+   
     public static function autoload($className) {
      
         $alias = Config::Alias();

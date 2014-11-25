@@ -23,12 +23,9 @@ class Application {
     }
     
     public static function __callStatic($name,$arguments) {
-         $class=new $name($arguments);
-         if(count($arguments)==1){
-             return $class->$arguments[0];
-         }else{
-             return $class;
-         }
+         $class=new $name();
+         return $class;
+         
     }
 
     

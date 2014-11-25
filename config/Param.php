@@ -8,15 +8,8 @@
 
 class Param {
 
-    public function __construct($name) {
-        if (is_array($name) && count($name) > 0) {
-            foreach ($name as $key => $property) {
-                if (isset($this->params()[$property])) {
-                    $value = $this->params()[$property];
-                    $this->$property = $value;
-                }
-            }
-        }
+    public function __construct() {
+      
     }
 
     public static function params() {
@@ -34,6 +27,16 @@ class Param {
         if (isset($this->params()[$name])) {
             $this->$name = $value;
         }
+    }
+    
+    public function __toString() {
+       return '';
+    }
+    public function hello(){
+        return 'Hello World';
+    }
+    public function multiply($num1,$num2){
+        return $num1*$num2;
     }
 
 }

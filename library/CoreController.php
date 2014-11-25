@@ -10,11 +10,11 @@ abstract class CoreController implements Controller {
 
     public $viewFolder = '';
     public $pagetitle = '';
-    public $layout = '';
+    public $template = '';
 
     public function render($viewName, $data) {
-        $layoutHeader = "template/" . $this->layout . "/header.php";
-        $layoutFooter = "template/" . $this->layout . "/footer.php";
+        $layoutHeader = "template/" . $this->template . "/header.php";
+        $layoutFooter = "template/" . $this->template . "/footer.php";
         if (file_exists($layoutHeader)) {
             require_once $layoutHeader;
         }

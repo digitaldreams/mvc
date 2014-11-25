@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-class secureUpload {
+class secureUpload extends FilesystemIterator{
 
     private $upload;
     public $error;

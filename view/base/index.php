@@ -5,6 +5,7 @@
     </head>
     <body>
         <h1> <?php echo Config::options()['appsName']; ?></h1> 
+        <p><?php echo $hello; ?></p>
     </body>
 </html>
 

@@ -28,22 +28,14 @@ class BaseController extends CoreController {
     public function test() {
         $this->template = 'default';
         $member = new Member();
-        /*
-          $member->fullName="Najmul Islam";
-          $member->email="najmulislam@gmail.com";
-          $member->mobile=1717219548;
-          $member->country="BD";
-          $member->age=24;
-          $member->profession="Student";
-          $member->save();
-          $this->printObj($member->getErrors());
-         * 
-         */
-        // $this->printObj($member->findByPk(3));
-        echo Application::param()->multiply(3, 9);
+      
         $this->render('hello', array(
             'hello' => 'Hello World'
         ));
+    }
+    
+    public function Magic(){
+       echo Application::param()->multiply(3, 9);  
     }
 
     public function file() {
@@ -55,11 +47,22 @@ class BaseController extends CoreController {
         $file = new FileManager($filePath, 'r');
         $data = $file->getData();
         $retData = $ahelp->filterByRegex($data, '/^([a-c].*)/', 'match', TRUE);
-
-        $this->printObj($retData);
+        $queue = $ahelp->priority($retData, "/(gmail|.com)/");
+        //$this->printObj($queue);
 
 
         $this->render('file', array('file' => $file));
+    }
+
+    public function save() {
+        $member=new Member();
+        $member->fullName = "MVC tutorial";
+        $member->email = "tutor@gmail.com";
+        $member->mobile = 1925000036;
+        $member->country = "Bangladesh";
+        $member->age = 27;
+        $member->profession = "Teacher";
+        $member->save();
     }
 
 }

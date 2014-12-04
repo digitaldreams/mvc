@@ -69,7 +69,8 @@ trait Helper {
         }
         return $retVal;
     }
-     public function validate($value, $type, $options = '') {
+    
+    public function validate($value, $type, $options = '') {
         $retVal=FALSE;
         switch ($type) {
             case 'string':

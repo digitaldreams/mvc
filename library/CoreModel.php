@@ -9,10 +9,10 @@
 abstract class CoreModel implements Model {
 
     use Helper;
-    
+
     protected $db;
     protected $sql;
-    protected $placeHolderArray=array();
+    protected $placeHolderArray = array();
     public static $tableName;
     public static $pk;
 
@@ -26,7 +26,11 @@ abstract class CoreModel implements Model {
     public $properties = array();
 
     public function __construct() {
-        $this->db = new PDO(self::DRIVER .":dbname=" .self::DBNAME . ";host=" . self::HOSTNAME, self::USERNAME, self::PASSWORD);
+        try {
+            $this->db = new PDO(self::DRIVER . ":dbname=" . self::DBNAME . ";host=" . self::HOSTNAME, self::USERNAME, self::PASSWORD);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 
     /**
@@ -45,33 +49,35 @@ abstract class CoreModel implements Model {
      * 
      * @param type $pk
      */
-    protected function processQuery($statement){
+    protected function processQuery($statement) {
         
     }
-    protected function statement(){
+
+    protected function statement() {
         
     }
-    
+
     /**
      * 
      * @param array $array
      */
-    protected function where(array $array){
+    protected function where(array $array) {
         
     }
+
     /**
      * 
      * @param type $pk
      * @return type
      */
     public function findByPk($pk) {
-        $retObj='';
-       $this->sql="SELECT * FROM `".static::$tableName."` WHERE `".static::$pk."`=:pk";
-        $exec=  $this->db->prepare($this->sql);
-        $exec->bindParam(":pk",$pk,PDO::PARAM_INT);
+        $retObj = '';
+        $this->sql = "SELECT * FROM `" . static::$tableName . "` WHERE `" . static::$pk . "`=:pk";
+        $exec = $this->db->prepare($this->sql);
+        $exec->bindParam(":pk", $pk, PDO::PARAM_INT);
         $exec->execute();
-        $retObj=$exec->fetch(PDO::FETCH_OBJ);
-       return $retObj;
+        $retObj = $exec->fetch(PDO::FETCH_OBJ);
+        return $retObj;
     }
 
     /**
@@ -107,13 +113,12 @@ abstract class CoreModel implements Model {
      */
     public function save() {
         $this->insert($this->properties);
-        if(!empty($this->errors)){
+        if (!empty($this->errors)) {
             return FALSE;
         }
-    $exec=  $this->db->prepare($this->sql);
-    $exec->execute($this->placeHolderArray);
-    
-        }
+        $exec = $this->db->prepare($this->sql);
+        $exec->execute($this->placeHolderArray);
+    }
 
     public function errorMessage() {
         return [
@@ -124,6 +129,9 @@ abstract class CoreModel implements Model {
         ];
     }
 
+    /**
+     * 
+     */
     public function saveFromArray() {
         property_exists($this, $property);
     }
@@ -132,6 +140,10 @@ abstract class CoreModel implements Model {
         
     }
 
+    /**
+     * 
+     * @param type $name
+     */
     public function __get($name) {
         
     }
@@ -144,7 +156,7 @@ abstract class CoreModel implements Model {
             $sqlkeys.="`" . $key . "`,";
             $sqlValues.=":" . $key . ",";
             $type = $this->rules()[$key]['type'];
-            $this->placeHolderArray[":$key"]=$value;
+            $this->placeHolderArray[":$key"] = $value;
 
             if ($this->validate($value, $type) == FALSE) {
                 $this->errors[$key] = $this->errorMessage()[$type];
@@ -156,9 +168,14 @@ abstract class CoreModel implements Model {
         $sqlValues.=") ";
         $sql.=$sqlkeys;
         $sql.=$sqlValues;
-        $this->sql=$sql;
+        $this->sql = $sql;
     }
 
+    /**
+     *  Check if property name is valid php label.
+     * @param type $name
+     * @param type $value
+     */
     public function __set($name, $value) {
         if (ctype_alnum($name) && (ctype_digit($name[0]) == FALSE)) {
             $this->$name = $this->db->quote($value);
@@ -176,6 +193,10 @@ abstract class CoreModel implements Model {
         return array();
     }
 
+    /**
+     * 
+     * @return type
+     */
     public function getErrors() {
         return $this->errors;
     }

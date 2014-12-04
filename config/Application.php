@@ -48,8 +48,8 @@ class Application {
         $className = '';
         if (isset($alias[$name]) && !empty($alias[$name])) {
             $className = $alias[$name];
+            static::$controllerName = $className;
         }
-        static::$controllerName = $className;
         return $className;
     }
    

@@ -8,10 +8,11 @@ class Config{
           'rootUrl'=>'http://localhost/mvc',
           'defaultController'=>'BaseController',
           'errorController'=>'errorController',
-          'dbName'=>'',
-          'dbUser'=>'',
+          'dbName'=>'spl',
+          'dbUser'=>'root',
           'dbpass'=>'',
-          'dbHost'=>'',
+          'dbDriver'=>'mysql',
+          'dbHost'=>'localhost',
           'dbOptions'=>'',
           
         ];
@@ -25,6 +26,7 @@ class Config{
     public static function Alias(){
         return [
             'root'=>'BaseController',
+            'system'=>'SystemController',
             'home'=>'BaseController/index',
             'app'=>'Application'
         ];

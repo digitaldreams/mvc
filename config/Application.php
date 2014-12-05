@@ -12,7 +12,6 @@ class Application {
     public static $controllerName;
     public static $controllerMethod;
     private $path;
-    
 
     public function __construct() {
         $this->init();
@@ -21,14 +20,12 @@ class Application {
     public function index() {
         
     }
-    
-    public static function __callStatic($name,$arguments) {
-         $class=new $name();
-         return $class;
-         
+
+    public static function __callStatic($name, $arguments) {
+        $class = new $name();
+        return $class;
     }
 
-    
     public function init() {
         $hostName = $_SERVER['SERVER_NAME'];
         $pathName = $_SERVER['REQUEST_URI'];
@@ -52,9 +49,9 @@ class Application {
         }
         return $className;
     }
-   
+
     public static function autoload($className) {
-     
+
         $alias = Config::Alias();
         if (isset($alias[$className]) && !empty($alias[$className])) {
             $className = $alias[$className];
@@ -91,7 +88,11 @@ class Application {
                 throw new Exception('Class Does Not Exist');
             }
             if (method_exists($controller, $method)) {
-                $controller->$method();
+                try {
+                    $controller->$method();
+                } catch (Exception $ex) {
+                    echo $ex->getMessage();
+                }
             } elseif (method_exists($controller, 'index')) {
                 $controller->index();
             } else {
